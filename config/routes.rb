@@ -4,6 +4,17 @@ Rails.application.routes.draw do
   get 'about'   => 'static_pages#about'
   get 'contact' => 'static_pages#contact'
   get 'signup'  =>  'users#new'
+  
+  # Makes Users a RESTful resource 
+  # METHOD  URL            ACTION
+  # [GET]   /users       : index
+  # [GET]   /users/1     : show
+  # [GET]   /users/new   : new
+  # [POST]  /users       : create
+  # [GET]   /users/1/edit: edit
+  # [PATCH] /users/1     : update 
+  # [DELETE]/users/1     : destroy
+  resources :users 
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
