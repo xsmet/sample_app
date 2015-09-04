@@ -51,10 +51,13 @@ class UsersLoginTest < ActionDispatch::IntegrationTest
     assert_select "a[href=?]", logout_path,       count: 0
     assert_select "a[href=?]", user_path(@user),  count: 0
   end
-  
+
+  # Old test commented out, the new test uses 'assigns(:user)'
+  # to access the @user instance variable in the controller (sessions_helper.rb#current_user)
   test "login with remembering" do
     log_in_as(@user, remember_me: '1')
-    assert_not_nil cookies['remember_token']
+    # assert_not_nil cookies['remember_token']
+    assert_equal cookies['remember_token'], assigns(:user).remember_token
   end
   
   test "login without remembering" do

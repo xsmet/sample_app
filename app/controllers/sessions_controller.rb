@@ -3,15 +3,17 @@ class SessionsController < ApplicationController
   end
   
   def create
-    user = User.find_by(email: params[:session][:email].downcase)
-    if user && user.authenticate(params[:session][:password])
-      log_in user
+    # Use instance variable @user instead of plain local variable 'user'
+    # because that's testable with assigns(:user) in test/integration/users_login_test.rb
+    @user = User.find_by(email: params[:session][:email].downcase)
+    if @user && @user.authenticate(params[:session][:password])
+      log_in @user
       if params[:session][:remember_me] == '1'
-        remember user
+        remember @user
       else
-        forget user
+        forget @user
       end
-      redirect_to user # Rails converts this to: redirect_to user_url(user)
+      redirect_to @user # Rails converts this to: redirect_to user_url(user)
     else
       flash.now[:danger] = 'Invalid email/password combination' # Not quite right!
       render 'new'

@@ -15,18 +15,6 @@ class User < ActiveRecord::Base
   
   validates :password, presence:true, length: { minimum: 6 }
   
-  # Returns hash digest of a string
-  def User.digest(string)
-    cost = ActiveModel::SecurePassword.min_cost ? BCrypt::Engine::MIN_COST : 
-                                                  BCrypt::Engine.cost
-    BCrypt::Password.create(string, cost: cost)
-  end
-  
-  # Returns a random token
-  def User.new_token
-    SecureRandom.urlsafe_base64
-  end
-  
   # Remembers a user in the database for use in persistent sessions
   def remember
     self.remember_token = User.new_token
@@ -43,5 +31,20 @@ class User < ActiveRecord::Base
   # Forget a persisted user's remember_digest
   def forget
     update_attribute(:remember_digest, nil)
+  end
+  
+  # Methods that don't require an instance of this class (alternative: define User.digest()
+  class << self
+    # Returns hash digest of a string
+    def digest(string)
+      cost = ActiveModel::SecurePassword.min_cost ? BCrypt::Engine::MIN_COST : 
+                                                    BCrypt::Engine.cost
+      BCrypt::Password.create(string, cost: cost)
+    end
+    
+    # Returns a random token
+    def new_token
+      SecureRandom.urlsafe_base64
+    end
   end
 end
