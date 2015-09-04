@@ -26,5 +26,6 @@ class UsersSignupTest < ActionDispatch::IntegrationTest
     assert_template 'users/show'
     assert          flash.key?("success") # We should get a "succes" flash message
     assert_not      flash.key?("danger")  # ... and definitely no "danger" flash
+    assert is_logged_in?                  # and we should be logged in now
   end
 end
