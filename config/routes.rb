@@ -1,11 +1,17 @@
 Rails.application.routes.draw do
-  root             'static_pages#home'
-  get 'help'    => 'static_pages#help'
-  get 'about'   => 'static_pages#about'
-  get 'contact' => 'static_pages#contact'
-  get 'signup'  =>  'users#new'
+  root                'static_pages#home'     #root_path
+  get    'help'    => 'static_pages#help'     #help_path
+  get    'about'   => 'static_pages#about'    #about_path
+  get    'contact' => 'static_pages#contact'  #contact_path
+  get    'signup'  => 'users#new'             #signup_path
+
+  # Sessions (not a complete RESTful resource)
+  get    'login'   => 'sessions#new'          #login_path
+  post   'login'   => 'sessions#create'       #login_path
+  delete 'logout'  => 'sessions#destroy'      #logout_path
   
-  # Makes Users a RESTful resource 
+  resources :users 
+  # Makes Users a RESTful resource, generating all the following routes:
   # METHOD  URL            ACTION
   # [GET]   /users       : index
   # [GET]   /users/1     : show
@@ -14,7 +20,9 @@ Rails.application.routes.draw do
   # [GET]   /users/1/edit: edit
   # [PATCH] /users/1     : update 
   # [DELETE]/users/1     : destroy
-  resources :users 
+
+
+
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
