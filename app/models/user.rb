@@ -13,7 +13,8 @@ class User < ActiveRecord::Base
 
   has_secure_password
   
-  validates :password, presence:true, length: { minimum: 6 }
+  # Password can be nil here, e.g. when updating a user (and not providing a new password)
+  validates :password, presence:true, length: { minimum: 6 }, allow_nil: true
   
   # Remembers a user in the database for use in persistent sessions
   def remember
