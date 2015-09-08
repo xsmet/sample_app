@@ -11,6 +11,7 @@ Rails.application.routes.draw do
   delete 'logout'  => 'sessions#destroy'      #logout_path
   
   resources :users 
+  resources :account_activations, only: [:edit]
   # Makes Users a RESTful resource, generating all the following routes:
   # METHOD  URL            ACTION
   # [GET]   /users       : index

@@ -19,7 +19,7 @@ class UsersLoginTest < ActionDispatch::IntegrationTest
   end
   
   def setup
-    @user = users(:xavier)
+    @user = users(:tom)
   end
   
   # 1. Go to login page
@@ -34,6 +34,8 @@ class UsersLoginTest < ActionDispatch::IntegrationTest
     post login_path, session: { email: @user.email, password: 'password' }
     assert_redirected_to @user
     follow_redirect!
+    assert_not flash.key?('danger')   # No errors,
+    assert_not flash.key?('info')     # No notifications, 
     assert_template 'users/show'
     assert_select "a[href=?]", login_path, count: 0
     assert_select "a[href=?]", logout_path
