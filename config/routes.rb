@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  get 'password_resets/new'
+
+  get 'password_resets/edit'
+
   root                'static_pages#home'     #root_path
   get    'help'    => 'static_pages#help'     #help_path
   get    'about'   => 'static_pages#about'    #about_path
@@ -10,8 +14,9 @@ Rails.application.routes.draw do
   post   'login'   => 'sessions#create'       #login_path
   delete 'logout'  => 'sessions#destroy'      #logout_path
   
-  resources :users 
   resources :account_activations, only: [:edit]
+  resources :password_resets,     only: [:new, :create, :edit, :update]
+  resources :users 
   # Makes Users a RESTful resource, generating all the following routes:
   # METHOD  URL            ACTION
   # [GET]   /users       : index
