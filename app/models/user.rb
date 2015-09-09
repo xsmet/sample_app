@@ -59,7 +59,9 @@ class User < ActiveRecord::Base
     reset_sent_at < 2.hours.ago
   end
   
-  
+  def feed
+    Micropost.where("user_id = ?", id)
+  end
   
   # Methods that don't require an instance of this class (alternative: define User.digest()
   class << self
