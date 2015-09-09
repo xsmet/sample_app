@@ -60,13 +60,7 @@ class UsersController < ApplicationController
     
     #Before filters
     
-    def logged_in_user
-      unless logged_in?
-        store_location
-        flash[:danger] = "Please log in first."
-        redirect_to login_url
-      end
-    end
+    # logged_in_user is defined in ApplicationController (superclass)
     
     def correct_user
       @user = User.find(params[:id])
