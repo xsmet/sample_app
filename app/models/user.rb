@@ -72,7 +72,22 @@ class User < ActiveRecord::Base
   end
   
   def feed
-    Micropost.where("user_id = ?", id)
+    # 1. Original
+    # Micropost.where("user_id IN (?) OR user_id = ?", following_ids, id)
+    
+    # 2. Equivalent, but rewritten 
+    # Micropost.where("user_id IN (:following_ids) OR user_id = :user_id", 
+    #                        following_ids: following_ids, user_id: id)
+    
+    # 3. Equivalent result, but we build a more efficient query                       
+    following_ids = "SELECT followed_id FROM relationships
+                     WHERE  follower_id = :user_id"
+    Micropost.where("user_id IN (#{following_ids})
+                     OR user_id = :user_id", user_id: id)
+                     
+    # 4. Of course, even the subselect won’t scale forever. 
+    #    For bigger sites, you would probably 
+    #    need to generate the feed asynchronously using a background job
   end
   
   # Follows a user
