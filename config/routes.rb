@@ -17,7 +17,13 @@ Rails.application.routes.draw do
   resources :account_activations, only: [:edit]
   resources :password_resets,     only: [:new, :create, :edit, :update]
   resources :microposts,           only: [:create, :destroy]
-  resources :users 
+  resources :users do
+    member do # 'member' arrangers urls like /users/1/followers,
+              # as opposed to 'collection', which would route to /users/followers
+              # named routes are: following_user_path(1), followers_user_path(1)
+      get :following, :followers
+    end
+  end
   # Makes Users a RESTful resource, generating all the following routes:
   # METHOD  URL            ACTION
   # [GET]   /users       : index
