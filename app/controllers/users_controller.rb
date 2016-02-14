@@ -19,6 +19,7 @@ class UsersController < ApplicationController
   
   def create
     #@user = User.new(user_params)
+    params.permit!
     @user = User.new(params[:user])
     if @user.save
       @user.send_activation_email
@@ -41,6 +42,7 @@ class UsersController < ApplicationController
   def update
     @user = User.find(params[:id])
     #if @user.update_attributes(user_params)
+    params.permit!
     if @user.update_attributes(params[:user])
       flash[:success] = "Profile updated"
       redirect_to @user
