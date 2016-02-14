@@ -18,7 +18,8 @@ class UsersController < ApplicationController
   end
   
   def create
-    @user = User.new(user_params) # Placeholder
+    #@user = User.new(user_params)
+    @user = User.new(params[:user])
     if @user.save
       @user.send_activation_email
       flash[:info] = "Please check your email to activate your account."
@@ -39,7 +40,8 @@ class UsersController < ApplicationController
   
   def update
     @user = User.find(params[:id])
-    if @user.update_attributes(user_params)
+    #if @user.update_attributes(user_params)
+    if @user.update_attributes(params[:id])
       flash[:success] = "Profile updated"
       redirect_to @user
     else
